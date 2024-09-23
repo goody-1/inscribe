@@ -34,7 +34,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://localhost:5173', 'localhost']
+ALLOWED_HOSTS = ['http://localhost:5173', 'localhost','127.0.0.1']
 
 # Allow specific origins (like your Vite frontend at localhost:5173)
 CORS_ALLOWED_ORIGINS = [
