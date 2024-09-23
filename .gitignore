@@ -1,0 +1,9 @@
+frontend_inscribe/node_modules/
+frontend_inscribe/build/
+inscribe/.env
+inscribe/db.sqlite3
+inscribe/inscribe/__pycache__/
+inscribe/users/__pycache__/
+inscribe/articles/__pycache__/
+inscribe/management/command/__pycache__/
+inscribe/migrations
