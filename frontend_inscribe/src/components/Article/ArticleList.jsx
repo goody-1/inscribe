@@ -4,6 +4,12 @@ import CommentCard from '../Comment/Comment';
 
 const ArticleList = () => {
   const [articles, setArticles] = useState([]);
+  const [openCommentId, setOpenCommentId] = useState(null); // This is crucial for toggling comments
+
+  const toggleComments = (articleId) => {
+    // Toggle the open comment ID
+    setOpenCommentId(prevId => (prevId === articleId ? null : articleId));
+  };
 
   useEffect(() => {
     axios.get('http://localhost:8000/api/articles/')
@@ -17,16 +23,19 @@ const ArticleList = () => {
 
   return (
     <div className='flex flex-col'>
-      <h2 className='text-yellow-500 self-center text-xl mb-4 font-semibold'>Inscriptions</h2>
-
       {articles.map(article => (
-        <ArticleCard key={article.id} article={article} />
+        <ArticleCard
+          key={article.id}
+          article={article}
+          toggleComments={toggleComments}
+          isOpen={openCommentId === article.id} // Pass the isOpen prop to ArticleCard
+        />
       ))}
     </div>
   );
 };
 
-const ArticleCard = ({ article }) => {
+const ArticleCard = ({ article, toggleComments, isOpen }) => {
   const [showFullContent, setShowFullContent] = useState(false);
   const contentLimit = 250; // Character limit for truncation
 
@@ -50,12 +59,13 @@ const ArticleCard = ({ article }) => {
         <div>
           <h2 className='font-bold mb-2'>{article.title}</h2>
           <h3>{article.author_profile.profile.firstname}</h3>
-          <p className='font-sans'>
-            {showFullContent ? article.content : truncatedContent}
-          </p>
+          <div
+            className="font-sans article-content"
+            dangerouslySetInnerHTML={{ __html: showFullContent ? article.content : truncatedContent }}
+          />
           {article.content.length > contentLimit && (
             <p
-              className=' flex justify-between text-yellow-400 text-xs mt-3 cursor-pointer'
+              className='flex justify-between text-yellow-400 text-xs mt-3 cursor-pointer'
               onClick={() => setShowFullContent(!showFullContent)}
             >
               <span className='hover:text-gray-200'>{showFullContent ? 'Read less' : 'Read more'}</span>
@@ -66,7 +76,7 @@ const ArticleCard = ({ article }) => {
       </div>
       <div className='article-footer flex flex-col p-2 px-6 pb-4 bg-gray-900 text-yellow-400 rounded rounded-t-none font-mono text-sm'>
         <div className='flex justify-between'>
-          <div className='flex space-x-2'>
+          <div className='flex space-x-1 cursor-pointer' onClick={() => toggleComments(article.id)}>
             <span>{article.comment_count}</span>
             <span>{article.comment_count === 1 ? 'Comment' : 'Comments'}</span>
           </div>
@@ -77,10 +87,13 @@ const ArticleCard = ({ article }) => {
         </div>
         <section id='comment'>
           {/* Add CommentCard here to show comments */}
-          <CommentCard articleId={article.id} />
+          <CommentCard
+            articleId={article.id}
+            isOpen={isOpen} // Use the isOpen prop to control visibility
+            toggleComments={toggleComments} // Pass the toggleComments function
+          />
         </section>
       </div>
-
     </article>
   );
 };
