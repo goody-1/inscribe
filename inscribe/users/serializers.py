@@ -1,6 +1,29 @@
 from rest_framework import serializers
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import User
 from .models import UserProfile, Follow, Notification
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    email = serializers.EmailField(required=True)
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Add custom claims if needed
+        return token
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+        user = authenticate(request=self.context.get('request'), username=email, password=password)
+
+        if not user:
+            raise serializers.ValidationError('Invalid email or password')
+
+        attrs['user'] = user
+        return super().validate(attrs)
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -11,10 +34,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         fields = ['username', 'email', 'password']
 
     def create(self, validated_data):
-        password = validated_data.pop('password')
         user = User.objects.create_user(**validated_data)
-        user.set_password(password)
-        user.save()
         return user
 
 
@@ -54,6 +74,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 class UserRetrieveSerializer(serializers.ModelSerializer):
+
+    user_profile = serializers.SerializerMethodField()
     profile = UserProfileSerializer(source='userprofile')
     profile_url = serializers.HyperlinkedIdentityField(
         view_name='userprofile-detail',
@@ -63,7 +85,11 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'profile', 'profile_url']
+        fields = ['id', 'username', 'email', 'user_profile', 'profile', 'profile_url']
+
+    def get_user_profile(self, obj):
+        profile = obj.userprofile
+        return UserProfileSerializer(profile).data
 
 
 class FollowSerializer(serializers.ModelSerializer):
