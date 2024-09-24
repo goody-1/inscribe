@@ -146,7 +146,7 @@ This structure separates the backend and frontend to make development more modul
 1. Navigate to the frontend_inscribe directory:
 
     ```bash
-    cd frontend
+    cd frontend_inscribe
     ```
 
 2. Install frontend dependencies:
@@ -183,15 +183,15 @@ After setting up both the backend and frontend, you can run the project by:
     npm run dev
     ```
 
-Your application will be available at `http://localhost:3000` for the frontend, and the backend API at `http://localhost:8000/api`.
+Your application will be available at `http://localhost:5137` for the frontend, and the backend API at `http://localhost:8000/api`.
 
 ## API Endpoints
 
-- **GET** `/api/posts/` - List all posts
-- **POST** `/api/posts/` - Create a new post
-- **GET** `/api/posts/:id/` - Retrieve a single post
-- **PUT** `/api/posts/:id/` - Update an existing post
-- **DELETE** `/api/posts/:id/` - Delete a post
+- **GET** `/api/articles/` - List all posts
+- **POST** `/api/articles/` - Create a new post
+- **GET** `/api/articles/:id/` - Retrieve a single post
+- **PUT** `/api/articles/:id/` - Update an existing post
+- **DELETE** `/api/articles/:id/` - Delete a post
 
 Additional routes and detailed documentation are available in the API docs (future feature).
 
