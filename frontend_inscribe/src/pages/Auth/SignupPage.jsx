@@ -28,6 +28,7 @@ const SignupPage = () => {
         navigate('/login');
       })
       .catch(error => {
+        console.log(error.response.data);
         if (error.response && error.response.data) {
           setError(error.response.data);
         } else {
@@ -49,7 +50,7 @@ const SignupPage = () => {
       <div className="text-red-500">
         {Object.entries(error).map(([field, messages]) => (
           <div key={field}>
-            <strong>{field}:</strong> {messages.join(', ')}
+            <strong>{field}:</strong> {Array.isArray(messages) ? messages.join(', ') : messages}
           </div>
         ))}
       </div>

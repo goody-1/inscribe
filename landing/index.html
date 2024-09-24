@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <title>inscribe</title>
+</head>
+<body class="bg-gray-200">
+    <header class="bg-gray-800 text-white px-6">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center py-4">
+                <a href="#" class="text-2xl font-bold">inscribe</a>
+                <nav class="flex justify-between items-center space-x-6 text-yellow-500">
+                    <ul class="flex space">
+                        <li><a href="#features" class="px-4 hover:text-white">Features</a></li>
+                        <li><a href="#about-us" class="px-4 hover:text-white">About</a></li>
+                    </ul>
+                    <button class="bg-yellow-500 text-white font-semibold py-2 px-6 rounded hover:bg-white hover:text-yellow-500">
+                        <a href="#" >Get Started</a>
+                    </button>
+                </nav>
+            </div>
+    </header>
+    <main class="min-h-screen">
+        <section class="container mx-auto bg-white rounded">
+            <div class="flex justify-between items-center">
+                <div class="w-2/5 px-6 text-center">
+                    <h1 class="text-6xl font-bold text-gray-800">Inscribe</h1>
+                    <p class="text-xl text-gray-600 mt-4">Be Inspired to Inscribe and Inscribe to Inspire Many</p>
+
+                </div>
+                <div class="w-3/5">
+                    <img src="./images/pexels-olly-3807741.jpg" alt="python" class="w-full h-96 object-cover">
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features container mx-auto bg-white rounded py-12 mt-1.5">
+            <h2 class="text-4xl font-bold text-gray-800 text-center mb-8">Our Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="feature-item text-center">
+                    <img src="./images/pexels-thought-catalog-317580-2228564.jpg" alt="Writing" class="mx-auto h-60 w-60 mb-4 rounded shadow">
+                    <h3 class="text-2xl font-semibold text-gray-700">Express Your Voice</h3>
+                    <p class="text-gray-600 mt-2">Inscribe provides a platform for writers to share their thoughts and creativity through various categories such as songs, poems, articles, and more. Express yourself with no boundaries.</p>
+                </div>
+                <div class="feature-item text-center">
+                    <img src="./images/pexels-divinetechygirl-1181617.jpg" alt="Community" class="mx-auto h-60 w-72 mb-4 rounded shadow">
+                    <h3 class="text-2xl font-semibold text-gray-700">Vibrant Community</h3>
+                    <p class="text-gray-600 mt-2">Join a diverse community of passionate writers and readers. Comment, share, and engage with content that inspires, educates, and entertains.</p>
+                </div>
+                <div class="feature-item text-center">
+                    <img src="./images/pexels-dariabuntaria-2938205.jpg" alt="Categories" class="mx-auto h-60 w-60 mb-4 rounded shadow">
+                    <h3 class="text-2xl font-semibold text-gray-700">Curated Categories</h3>
+                    <p class="text-gray-600 mt-2">From the soothing rhythms of songs to the evocative power of poetry, Inscribe categorizes content into various inspiring themes, ensuring that readers always find something that resonates with their soul.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about-us" class="about-us container mx-auto bg-white rounded py-12 mt-1.5">
+            <h2 class="text-4xl font-bold text-gray-800 text-center mb-8">About Us</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Team Member 1 -->
+                <div class="team-member text-center">
+                    <img src="./images/goodness.jpg" alt="Goodness Atunde" class="mx-auto h-40 w-40 rounded-full mb-4">
+                    <h3 class="text-2xl font-semibold text-gray-700">Goodness Atunde</h3>
+                    <p class="text-gray-600 mt-2">Goodness is a passionate creator, innovator, and the driving force behind Inscribe. With a vision to empower writers to share their stories, Goodness ensures that creativity flourishes on this platform.</p>
+                </div>
+                <!-- Team Member 2 -->
+                <div class="team-member text-center">
+                    <img src="./images/pexels-nkhajotia-1516680.jpg" alt="Simon Blay" class="mx-auto h-40 w-40 rounded-full mb-4">
+                    <h3 class="text-2xl font-semibold text-gray-700">Simon Blay</h3>
+                    <p class="text-gray-600 mt-2">Simon is a tech enthusiast with a flair for design and user experience. He brings ideas to life, ensuring that every interaction on Inscribe is seamless and inspiring for users worldwide.</p>
+                </div>
+                <!-- Team Member 3 -->
+                <div class="team-member text-center">
+                    <img src="./images/pexels-italo-melo-881954-2379004.jpg" alt="Elijah Fremopong" class="mx-auto h-40 w-40 rounded-full mb-4">
+                    <h3 class="text-2xl font-semibold text-gray-700">Elijah Fremopong</h3>
+                    <p class="text-gray-600 mt-2">Elijah, a seasoned writer and content strategist, oversees the creative direction of Inscribe. His expertise helps cultivate a rich repository of inspirational and impactful content for readers.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <footer class="bg-gray-800 text-white px-8">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center py-4">
+                <p class="">inscribe &copy; 2024</p>
+                <p class="">Terms of Service | Privacy Policy</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
