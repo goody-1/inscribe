@@ -1,15 +1,60 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from rest_framework import viewsets, permissions, serializers
 from rest_framework.exceptions import PermissionDenied
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from rest_framework_simplejwt.tokens import RefreshToken
+
 from .models import UserProfile, Follow, Notification
 from .serializers import (
+    CustomTokenObtainPairSerializer,
     UserCreateSerializer,
     UserProfileSerializer,
     FollowSerializer,
     NotificationSerializer,
     UserRetrieveSerializer
 )
+
+
+class RegisterUserView(APIView):
+    def post(self, request):
+        serializer = UserCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # Log the validation errors
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LoginUserView(APIView):
+    def post(self, request):
+        # Get the username and password from the request data
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        # Authenticate the user
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            # Create JWT tokens
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            })
+        else:
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 
 class UserSignupViewSet(viewsets.ModelViewSet):
@@ -27,15 +72,10 @@ class UserSignupViewSet(viewsets.ModelViewSet):
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        # Allow admins to view all profiles, otherwise show only the profile of the logged-in user
-        user = self.request.user
-        # if user.is_staff:  # Check if the user is an admin (staff)
-        #     return UserProfile.objects.all()
-        # else:
-        return UserProfile.objects.all()
+        user_id = self.kwargs['user_pk']
+        return UserProfile.objects.filter(user_id=user_id)
 
     # def get_object(self):
     #     # Check if the user is an admin

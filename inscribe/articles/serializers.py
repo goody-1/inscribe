@@ -57,9 +57,9 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id', 'article', 'author_id', 'author_username', 'content', 'parent', 'created_at',
+        fields = ['id', 'article', 'author_id', 'author_username', 'content', 'created_at',
                   'humanized_created_at']
-        read_only_fields = ['author_id', 'author_username', 'created_at']
+        read_only_fields = ['id', 'article', 'author_id', 'author_username', 'created_at']
 
     def get_humanized_created_at(self, obj):
         return self._humanize_time(obj.created_at)
@@ -71,6 +71,12 @@ class CommentSerializer(serializers.ModelSerializer):
         # and ignore the rest (hours, minutes)
         humanized = time_diff.split(',')[0]  # Take the first part before the comma
         return humanized + " ago"
+
+    def validate_content(self, value):
+        if not value.strip():
+            raise serializers.ValidationError("Comment content cannot be empty.")
+        return value
+
 
 
 class LikeSerializer(serializers.ModelSerializer):

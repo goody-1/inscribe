@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .models import Article, Comment, Like, Tag, ArticleTag, Bookmark
@@ -29,9 +29,12 @@ class CommentViewSet(viewsets.ModelViewSet):
         return Comment.objects.filter(article__id=article_id)
 
     def perform_create(self, serializer):
+        """
+        Set the logged-in user as the author of the comment
+        and associate it with the article.
+        """
         article_id = self.kwargs['article_pk']
-        article = Article.objects.get(id=article_id)
-        # Set the logged-in user as the author of the comment and associate it with the article
+        article = get_object_or_404(Article, id=article_id)
         serializer.save(author=self.request.user, article=article)
 
 

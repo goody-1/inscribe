@@ -8,7 +8,7 @@ import inscribe_banner from '../../assets/home/inscribe_banner.jpeg';
 
 
 const HomePage = () => {
-    console.log("HomePage is rendered");
+
   return (
     <div className="rounded-md">
       {/* Main Container */}

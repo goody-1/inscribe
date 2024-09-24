@@ -1,9 +1,19 @@
+# Ignore node_modules and build directories in the frontend
 frontend_inscribe/node_modules/
 frontend_inscribe/build/
+
+# Ignore environment variables and database files
 inscribe/.env
 inscribe/db.sqlite3
-inscribe/inscribe/__pycache__/
-inscribe/users/__pycache__/
-inscribe/articles/__pycache__/
-inscribe/management/command/__pycache__/
-inscribe/migrations
+
+# Ignore all __pycache__ directories in the inscribe project
+inscribe/**/*.pyc
+inscribe/**/*.pyo
+inscribe/**/*.pyd
+inscribe/**/__pycache__/
+
+# Ignore migrations (if you do not want to track them)
+inscribe/migrations/
+
+# Alternatively, if you want to track migrations, you can comment the line above.
+# Just make sure to manage migrations properly.

@@ -19,12 +19,19 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import permissions
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 from rest_framework.routers import DefaultRouter
 from rest_framework_nested import routers
-from users.views import UserProfileViewSet, FollowViewSet, NotificationViewSet, UserSignupViewSet
+from users.views import (
+    UserProfileViewSet, FollowViewSet, NotificationViewSet, UserSignupViewSet,
+    RegisterUserView, LoginUserView, CustomTokenObtainPairView
+    )
 from articles.views import ArticleViewSet, CommentViewSet, TagViewSet, LikeViewSet
 from articles.views import ArticleTagViewSet, BookmarkViewSet
 
@@ -45,6 +52,9 @@ schema_view = get_schema_view(
 router = DefaultRouter()
 router.register(r'users', UserSignupViewSet, basename='user')
 router.register(r'profile', UserProfileViewSet, basename='userprofile')
+
+user_profile_router = routers.NestedDefaultRouter(router, r'users', lookup='user')
+user_profile_router.register(r'profile', UserProfileViewSet, basename='user-profile')
 router.register(r'followers', FollowViewSet)
 router.register(r'notifications', NotificationViewSet)
 
@@ -63,8 +73,16 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/', include(articles_router.urls)),
+    path('api/', include(user_profile_router.urls)),
 
     path('api-auth/', include('rest_framework.urls')),
+    path('api/login/', LoginUserView.as_view(), name='login_user'),
+    path('api/register/', RegisterUserView.as_view(), name='register_user'),
+
+    # will use CustomTokenObtainPairView to override the default TokenObtainPairView
+    # this is to allow signup with email instead of username or both
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
 
