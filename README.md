@@ -155,13 +155,7 @@ This structure separates the backend and frontend to make development more modul
     npm install
     ```
 
-3. Configure environment variables for the frontend by creating a `.env` file in the `frontend` directory:
-
-    ```env
-    REACT_APP_API_URL=http://localhost:8000/api
-    ```
-
-4. Start the React development server:
+3. Start the React development server:
 
     ```bash
     npm run dev
